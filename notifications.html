@@ -1,0 +1,111 @@
+<div id="notifications-panel" class="notification-container hidden">
+
+    <!-- Header -->
+    <div class="notification-header">
+        <h3>{{ _('Notificações') }}</h3>
+        <button onclick="toggleNotifications()" class="close-btn">×</button>
+    </div>
+
+    <!-- Lista de notificações -->
+    <div id="notification-list" class="notification-list">
+        {% if notifications %}
+            {% for n in notifications %}
+                <div class="notification-item {{ 'unread' if not n['lida'] else '' }}">
+                    <div class="notification-title">{{ n['titulo'] }}</div>
+
+                    <div class="notification-message">
+                        {{ n['mensagem'] }}
+                    </div>
+
+                    <div class="notification-meta">
+                        <span>{{ n['data'] }}</span>
+
+                        {% if not n['lida'] %}
+                        <button class="mark-read-btn" onclick="marcarNotificacao({{ n['id'] }})">
+                            {{ _('Marcar como lida') }}
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">{{ _('Nenhuma notificação por aqui...') }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.notification-container {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 25px rgba(0,0,0,.2);
+    padding: 10px;
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+.hidden { display: none; }
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.notification-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: var(--background-soft);
+    border-left: 4px solid var(--accent);
+}
+
+.notification-item.unread {
+    border-left: 4px solid #ff4444;
+    background: var(--accent-faded);
+}
+
+.notification-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.notification-meta {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mark-read-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+</style>
+
+<script>
+function toggleNotifications() {
+    let panel = document.getElementById("notifications-panel");
+    panel.classList.toggle("hidden");
+}
+
+function marcarNotificacao(id) {
+    fetch('/marcar-notificacao/' + id)
+    .then(r => r.json())
+    .then(data => { 
+        if (data.ok) location.reload();
+    });
+}
+</script>

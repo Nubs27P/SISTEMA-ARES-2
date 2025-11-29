@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <title>{{ system_name or "Ares" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <script src="{{ url_for('static', filename='i18n.js') }}"></script>
+</head>
+<body class="{{ theme }}">
+  <header>
+    <div class="brand">{{ system_name or "Ares" }}</div>
+    <div class="controls">
+      <button onclick="toggleTheme()">🌓</button>
+      <button onclick="changeLang('pt')">PT</button>
+      <button onclick="changeLang('en')">EN</button>
+    </div>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

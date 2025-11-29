@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Painel Professor — {{ prof['nome_completo'] }}</h2>
+  <h4>Disciplina: {{ prof['disciplina'] }}</h4>
+
+  <section class="card">
+    <h3>Turmas atribuídas</h3>
+    <ul>
+      {% for t in turmas %}
+        <li>{{ t['serie'] }} - {{ t['turma'] }}</li>
+      {% else %}
+        <li>Sem turmas</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Adicionar turma</h3>
+    <form id="addTurmaForm">
+      <input name="serie" placeholder="Série">
+      <input name="turma" placeholder="Turma">
+      <button type="button" onclick="addTurma({{ prof['id'] }})">Adicionar</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Alunos (minhas turmas)</h3>
+    <ul>
+      {% for a in alunos %}
+        <li>{{ a['nome_completo'] }} — {{ a['serie'] }} {{ a['turma'] }}</li>
+      {% else %}
+        <li>Sem alunos</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

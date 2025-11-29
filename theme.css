@@ -1,0 +1,8 @@
+:root{
+  --bg:#ffffff;--text:#111;--card:#ffffff
+}
+.dark{
+  --bg:#0d1117;--text:#e6eef8;--card:#111418
+}
+body{background:var(--bg);color:var(--text)}
+.card{background:var(--card)}

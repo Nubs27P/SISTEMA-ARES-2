@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Painel Aluno — {{ aluno['nome_completo'] }}</h2>
+  <p>Matrícula: {{ aluno['matricula'] }}</p>
+  <p>Patente: {{ aluno['patente'] }} — Pontos Totais: {{ aluno['pontos_totais'] }}</p>
+
+  <section class="card">
+    <h3>Avaliações</h3>
+    {% if avaliacao %}
+      <p>Prova1: {{ avaliacao['prova1'] }} | Prova2: {{ avaliacao['prova2'] }} | Prova3: {{ avaliacao['prova3'] }} | Final: {{ avaliacao['prova_final'] }}</p>
+      <p>Total avaliações (0..40): {{ avaliacao['pontuacao_total'] }}</p>
+    {% else %}
+      <p>Sem avaliações</p>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h3>Registrar pontos</h3>
+    <form id="pontosForm">
+      <input name="prova1" placeholder="Prova 1 (0..10)">
+      <input name="prova2" placeholder="Prova 2 (0..10)">
+      <input name="prova3" placeholder="Prova 3 (0..10)">
+      <input name="prova_final" placeholder="Prova final (0..10)">
+      <input name="missoes" placeholder="Missões (0..30)">
+      <input name="disciplina" placeholder="Disciplina (0..20)">
+      <input name="presenca" placeholder="Presença (0..10)">
+      <button type="button" onclick="enviarPontos({{ aluno['id'] }})">Enviar</button>
+    </form>
+  </section>
+
+  <section class="card foto-section">
+    <h3>Foto de Perfil</h3>
+    {% if aluno['foto'] %}
+      <img id="foto-preview" src="{{ url_for('foto', nome=aluno['foto']) }}" width="140">
+    {% else %}
+      <img id="foto-preview" src="{{ url_for('static', filename='placeholder.png') }}" width="140">
+    {% endif %}
+    <input type="file" id="input-foto">
+    <button onclick="enviarFoto('aluno', {{ aluno['id'] }})">Enviar Foto</button>
+  </section>
+
+  <section class="card">
+    <h3>Ranking da Turma</h3>
+    <ol>
+      {% for r in ranking %}
+        <li>{{ r['nome_completo'] }} — {{ r['pontos_totais'] or 0 }}</li>
+      {% else %}
+        <li>Sem ranking</li>
+      {% endfor %}
+    </ol>
+  </section>
+{% endblock %}

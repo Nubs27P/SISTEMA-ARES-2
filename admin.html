@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Painel Administrador — {{ admin['email'] }}</h2>
+
+  <section class="card">
+    <h3>Cadastrar Aluno</h3>
+    <form action="{{ url_for('index') }}" method="get"> <!-- link to a modal/page for full form -->
+      <a href="#">Abrir formulário de cadastro de aluno no painel</a>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Professores</h3>
+    <ul>
+      {% for p in professors %}
+        <li>
+          {% if p['foto'] %}
+            <img src="{{ url_for('foto', nome=p['foto']) }}" width="40">
+          {% endif %}
+          {{ p['nome_completo'] }} — {{ p['disciplina'] }} — {{ p['email'] }}
+        </li>
+      {% else %}
+        <li>Sem professores</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Alunos</h3>
+    <ul>
+      {% for a in students %}
+        <li>
+          {% if a['foto'] %}
+            <img src="{{ url_for('foto', nome=a['foto']) }}" width="40">
+          {% endif %}
+          {{ a['nome_completo'] }} — {{ a['matricula'] or 'sem matrícula' }} — {{ a['serie'] }} {{ a['turma'] or '' }}
+          — Pontos: {{ a['pontos_totais'] or 0 }} — Patente: {{ a['patente'] }}
+        </li>
+      {% else %}
+        <li>Sem alunos</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Ranking Geral</h3>
+    <ol>
+      {% for r in ranking %}
+        <li>{{ r['nome_completo'] }} — {{ r['pontos_totais'] or 0 }}</li>
+      {% endfor %}
+    </ol>
+  </section>
+{% endblock %}
